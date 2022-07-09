@@ -1,4 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+:root {
+  --form-control-color: darkorange;
+}
+
+/* Gray: #7A7A7A
+Green: #085454
+Darkblue: #085454 */
+
 html {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #213a8f;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+body {
+  background-color: #eee;
+}
+
+.form-control {
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.1;
+  padding: 5px;
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type="radio"]:checked + span {
+  color: var(--form-control-color);
+}
+
+.form-control + .form-control {
+  margin-left: 1em;
+  margin-right: 1em;
 }

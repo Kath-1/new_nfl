@@ -1,23 +1,26 @@
 import { useState } from "react";
 
-const FoldableContainer = ({ children, label }) => {
-  const [expanded, setExpanded] = useState(true);
+const FoldableContainer = ({ children, label, initialState }) => {
+  const [expanded, setExpanded] = useState(initialState);
   return (
-    <div className="expandable-container" style={{ border: "1px solid #888" }}>
+    <div className="expandable-container">
       <div
         onClick={() => setExpanded(!expanded)}
         onKeyDown={(e) => (e.code === "Enter" ? setExpanded(!expanded) : null)}
         role="button"
         tabIndex={0}
         style={{
-          display: "flex",
-          alignItems: "center",
-          padding: "10px",
+          padding: "10px 3px 10px 3px",
         }}
       >
-        {label}
+        {label}{" "}
+        {expanded ? (
+          <span>{">"}</span>
+        ) : (
+          <span style={{ transform: "rotate(90deg)" }}>{">"}</span>
+        )}
       </div>
-      {expanded ? <div style={{ padding: "10px" }}>{children}</div> : null}
+      {expanded ? <div>{children}</div> : null}
     </div>
   );
 };
