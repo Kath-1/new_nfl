@@ -31,7 +31,10 @@ const BettingPage = () => {
 
   return (
     <section
-      style={{ maxWidth: "700px", margin: "0 auto", backgroundColor: "#FFF" }}
+      style={{
+        maxWidth: "700px",
+        margin: "20px auto",
+      }}
     >
       <form>
         {data.currentRound.map((game) => (

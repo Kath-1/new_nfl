@@ -8,6 +8,12 @@ const BetGame = ({ game }) => {
         padding: "20px 0",
         justifyContent: "center",
         border: "none",
+        backgroundColor: "#fff",
+
+        borderRadius: "5px",
+        marginBottom: "10px",
+        boxShadow: "0 2px 2px 0 rgba(0,0,0,.16)",
+        width: "100%",
       }}
     >
       <label className="form-control">
