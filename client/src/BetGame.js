@@ -18,7 +18,7 @@ const BetGame = ({ game }) => {
         />
         <div>
           <img
-            style={{ height: "40px" }}
+            style={{ height: "40px", marginRight: "5px" }}
             alt="team logo"
             src={game.awayTeam.logo}
           />
@@ -38,7 +38,7 @@ const BetGame = ({ game }) => {
         <div>
           {game.homeTeam.shortName}
           <img
-            style={{ height: "40px" }}
+            style={{ height: "40px", marginLeft: "5px" }}
             alt="team logo"
             src={game.awayTeam.logo}
           />
