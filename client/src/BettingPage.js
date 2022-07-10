@@ -6,6 +6,8 @@ const GET_GAMES_TO_BET = gql`
   query getGamesToBet {
     currentRound {
       id
+      homeOdds
+      awayOdds
       homeTeam {
         nickname
         logo

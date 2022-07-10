@@ -22,7 +22,12 @@ const BetGame = ({ game }) => {
             alt="team logo"
             src={game.awayTeam.logo}
           />
-          {game.awayTeam.shortName}
+          <div>
+            <p>{game.awayTeam.shortName}</p>
+            <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
+              {game.awayOdds}
+            </p>
+          </div>
         </div>
       </label>
       <div style={{ display: "flex", alignItems: "center", fontSize: "2rem" }}>
@@ -36,7 +41,12 @@ const BetGame = ({ game }) => {
           name={game.id}
         />
         <div>
-          {game.homeTeam.shortName}
+          <div>
+            <p>{game.homeTeam.shortName}</p>
+            <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
+              {game.homeOdds}
+            </p>
+          </div>
           <img
             style={{ height: "40px", marginLeft: "5px" }}
             alt="team logo"
