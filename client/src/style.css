@@ -28,10 +28,14 @@ body {
 
 .form-control {
   font-family: system-ui, sans-serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: bold;
   line-height: 1.1;
   padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 input[type="radio"] {
@@ -40,8 +44,17 @@ input[type="radio"] {
   margin: 0;
 }
 
-input[type="radio"]:checked + span {
+input[type="radio"] + div {
+  margin: 0 10px;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+input[type="radio"]:checked + div {
   color: var(--form-control-color);
+  border-color: var(--form-control-color);
 }
 
 .form-control + .form-control {
