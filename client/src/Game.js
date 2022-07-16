@@ -1,8 +1,6 @@
 import React from "react";
 
 function Game({ game }) {
-  //const matches = useMediaQuery("(min-width: 768px)");
-
   return (
     <div
       style={{
@@ -30,7 +28,7 @@ function Game({ game }) {
       >
         {game.bets.map((bet) => (
           <div
-            key={bet.player + bet.pick}
+            key={bet.id}
             style={{
               color: "#001542",
               margin: "2px",

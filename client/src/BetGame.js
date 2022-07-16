@@ -1,6 +1,6 @@
 import React from "react";
 
-const BetGame = ({ game }) => {
+const BetGame = ({ game, handleInputChange }) => {
   return (
     <fieldset
       style={{
@@ -9,7 +9,6 @@ const BetGame = ({ game }) => {
         justifyContent: "center",
         border: "none",
         backgroundColor: "#fff",
-
         borderRadius: "5px",
         marginBottom: "10px",
         boxShadow: "0 2px 2px 0 rgba(0,0,0,.16)",
@@ -21,6 +20,7 @@ const BetGame = ({ game }) => {
           type="radio"
           id={game.id + game.awayTeam.nickname}
           name={game.id}
+          value="AWAY"
         />
         <div>
           <img
@@ -61,10 +61,14 @@ const BetGame = ({ game }) => {
         </div>
       </label>
       <input
+        data-id={game.bets[0].id}
         type="number"
         min="20"
         max="9999"
         style={{ width: "100px", fontSize: "1.5rem", paddingLeft: "25px" }}
+        value={game.bets[0]?.stake === null ? 100 : game.bets[0]?.stake}
+        onChange={handleInputChange}
+        name="amount"
       />
     </fieldset>
   );

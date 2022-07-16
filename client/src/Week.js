@@ -25,6 +25,7 @@ const GET_CURRENT_WEEK = gql`
         logo
       }
       bets {
+        id
         pick
         score
         player
