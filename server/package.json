@@ -11,5 +11,8 @@
   "dependencies": {
     "apollo-server": "^3.8.1",
     "graphql": "^16.5.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.3.0"
   }
 }
