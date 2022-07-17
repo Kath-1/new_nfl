@@ -21,6 +21,7 @@ const GET_GAMES_TO_BET = gql`
       bets {
         id
         stake
+        pick
       }
     }
   }
@@ -41,21 +42,19 @@ const BettingForm = ({ client }) => {
     return <p>Hm...</p>;
   }
 
-  const handleChange = (e) => {
+  const handleBetChange = (e) => {
     const { value } = e.target;
-    const id = e.target.dataset.id;
+    const { id, type } = e.target.dataset;
 
     const betId = `Bet:${id}`;
 
     client.writeFragment({
       id: betId,
       fragment: gql`
-        fragment NewBet on Bet {
-          stake
-        }
+        fragment New${type} on Bet {${type}}
       `,
       data: {
-        stake: value,
+        [type]: value,
       },
     });
   };
@@ -74,7 +73,11 @@ const BettingForm = ({ client }) => {
       >
         <button>Test</button>
         {data.currentRound.map((game) => (
-          <BetGame game={game} key={game.id} handleInputChange={handleChange} />
+          <BetGame
+            game={game}
+            key={game.id}
+            handleBetChange={handleBetChange}
+          />
         ))}
       </form>
     </section>

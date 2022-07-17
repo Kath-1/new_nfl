@@ -1,6 +1,6 @@
 import React from "react";
 
-const BetGame = ({ game, handleInputChange }) => {
+const BetGame = ({ game, handleBetChange }) => {
   return (
     <fieldset
       style={{
@@ -18,9 +18,12 @@ const BetGame = ({ game, handleInputChange }) => {
       <label className="form-control">
         <input
           type="radio"
-          id={game.id + game.awayTeam.nickname}
           name={game.id}
           value="AWAY"
+          checked={game.bets[0].pick === "AWAY"}
+          onChange={handleBetChange}
+          data-id={game.bets[0].id}
+          data-type="pick"
         />
         <div>
           <img
@@ -43,8 +46,12 @@ const BetGame = ({ game, handleInputChange }) => {
         <span style={{ position: "absolute", right: "-20px" }}>$</span>
         <input
           type="radio"
-          id={game.id + game.homeTeam.nickname}
           name={game.id}
+          value="HOME"
+          checked={game.bets[0].pick === "HOME"}
+          onChange={handleBetChange}
+          data-id={game.bets[0].id}
+          data-type="pick"
         />
         <div>
           <div>
@@ -62,12 +69,13 @@ const BetGame = ({ game, handleInputChange }) => {
       </label>
       <input
         data-id={game.bets[0].id}
+        data-type="stake"
         type="number"
         min="20"
         max="9999"
         style={{ width: "100px", fontSize: "1.5rem", paddingLeft: "25px" }}
         value={game.bets[0]?.stake === null ? 100 : game.bets[0]?.stake}
-        onChange={handleInputChange}
+        onChange={handleBetChange}
         name="amount"
       />
     </fieldset>
