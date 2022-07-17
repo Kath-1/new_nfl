@@ -43,8 +43,8 @@ const BettingForm = ({ client }) => {
   }
 
   const handleBetChange = (e) => {
-    const { value } = e.target;
     const { id, type } = e.target.dataset;
+    const value = type === "stake" ? Number(e.target.value) : e.target.value;
 
     const betId = `Bet:${id}`;
 
@@ -69,6 +69,7 @@ const BettingForm = ({ client }) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          console.log(data.currentRound);
         }}
       >
         <button>Test</button>
