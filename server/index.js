@@ -133,7 +133,9 @@ const mocks = {
         id: () => faker.database.mongodbObjectId(),
         player: "Thomas",
         score: 200,
-        stake: () => faker.datatype.number({ min: 50, max: 900 }) 
+        //stake: () => faker.datatype.number({ min: 50, max: 900 }) 
+        stake: null,
+        pick: "NONE"
         
     })
 }

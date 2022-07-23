@@ -1,42 +1,42 @@
 import { gql, useQuery, ApolloConsumer } from "@apollo/client";
-import React from "react";
+import React, { useState } from "react";
 import BetGame from "./BetGame";
-
-const GET_GAMES_TO_BET = gql`
-  query getGamesToBet {
-    currentRound {
-      id
-      homeOdds
-      awayOdds
-      homeTeam {
-        nickname
-        logo
-        shortName
-      }
-      awayTeam {
-        nickname
-        logo
-        shortName
-      }
-      bets {
-        id
-        stake
-        pick
-      }
-    }
-  }
-`;
+import { GET_GAMES_TO_BET } from "./queries";
 
 const BettingPage = () => {
-  return <WithApolloClient />;
+  return (
+    <ApolloConsumer>
+      {(client) => <BettingForm client={client} />}
+    </ApolloConsumer>
+  );
 };
-
-const WithApolloClient = () => (
-  <ApolloConsumer>{(client) => <BettingForm client={client} />}</ApolloConsumer>
-);
 
 const BettingForm = ({ client }) => {
   const { loading, error, data } = useQuery(GET_GAMES_TO_BET);
+  const [showinvalidFieldsMessage, setShowInvalidFieldsMessage] =
+    useState(false);
+
+  function validateData() {
+    let hasInvalidFields = false;
+    data.currentRound.every((game) => {
+      if (game.bets[0].pick !== "HOME" && game.bets[0].pick !== "AWAY") {
+        setShowInvalidFieldsMessage(true);
+        return false;
+      }
+    });
+    if (hasInvalidFields) {
+      setShowInvalidFieldsMessage(true);
+    }
+  }
+
+  function saveForm() {
+    console.log(data.currentRound);
+  }
+
+  function lockInBets() {
+    validateData();
+    console.log(data.currentRound);
+  }
 
   if (loading || error) {
     return <p>Hm...</p>;
@@ -45,9 +45,7 @@ const BettingForm = ({ client }) => {
   const handleBetChange = (e) => {
     const { id, type } = e.target.dataset;
     const value = type === "stake" ? Number(e.target.value) : e.target.value;
-
     const betId = `Bet:${id}`;
-
     client.writeFragment({
       id: betId,
       fragment: gql`
@@ -69,10 +67,14 @@ const BettingForm = ({ client }) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(data.currentRound);
+          saveForm(e);
         }}
+        noValidate={true}
       >
-        <button>Test</button>
+        <button>Save</button>
+        <button type="button" onClick={lockInBets}>
+          Lock in bets
+        </button>
         {data.currentRound.map((game) => (
           <BetGame
             game={game}
@@ -80,6 +82,7 @@ const BettingForm = ({ client }) => {
             handleBetChange={handleBetChange}
           />
         ))}
+        {showinvalidFieldsMessage ? <div>Fix errors</div> : null}
       </form>
     </section>
   );

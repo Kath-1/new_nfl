@@ -24,6 +24,8 @@ const BetGame = ({ game, handleBetChange }) => {
           onChange={handleBetChange}
           data-id={game.bets[0].id}
           data-type="pick"
+          required
+          disabled={!(game.bettingState === "OPEN")}
         />
         <div>
           <img
@@ -52,6 +54,8 @@ const BetGame = ({ game, handleBetChange }) => {
           onChange={handleBetChange}
           data-id={game.bets[0].id}
           data-type="pick"
+          required
+          disabled={!(game.bettingState === "OPEN")}
         />
         <div>
           <div>
@@ -77,6 +81,7 @@ const BetGame = ({ game, handleBetChange }) => {
         value={game.bets[0]?.stake === null ? 100 : game.bets[0]?.stake}
         onChange={handleBetChange}
         name="amount"
+        disabled={!(game.bettingState === "OPEN")}
       />
     </fieldset>
   );

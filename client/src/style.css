@@ -51,6 +51,18 @@ input[type="radio"] + div {
   padding: 4px;
 }
 
+input[type="radio"]:disabled + div {
+  /* color: gray; */
+}
+
+/* input:invalid {
+  color: red;
+}
+
+input:invalid + div {
+  color: red;
+} */
+
 input[type="radio"]:checked + div {
   color: var(--form-control-color);
   border-color: var(--form-control-color);
