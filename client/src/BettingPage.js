@@ -44,8 +44,23 @@ const BettingForm = ({ client }) => {
 
   const handleBetChange = (e) => {
     const { id, type } = e.target.dataset;
-    const value = type === "stake" ? Number(e.target.value) : e.target.value;
+    let value = type === "stake" ? Number(e.target.value) : e.target.value;
     const betId = `Bet:${id}`;
+
+    if (type === "pick") {
+      const bet = client.readFragment({
+        id: `${betId}`,
+        fragment: gql`
+          fragment MyBet on Bet {
+            pick
+          }
+        `,
+      });
+      if (value === bet.pick) {
+        value = "NONE";
+      }
+    }
+
     client.writeFragment({
       id: betId,
       fragment: gql`

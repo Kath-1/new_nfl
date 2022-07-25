@@ -21,11 +21,12 @@ const BetGame = ({ game, handleBetChange }) => {
           name={game.id}
           value="AWAY"
           checked={game.bets[0].pick === "AWAY"}
-          onChange={handleBetChange}
+          onClick={handleBetChange}
           data-id={game.bets[0].id}
           data-type="pick"
           required
           disabled={!(game.bettingState === "OPEN")}
+          readOnly
         />
         <div>
           <img
@@ -51,11 +52,12 @@ const BetGame = ({ game, handleBetChange }) => {
           name={game.id}
           value="HOME"
           checked={game.bets[0].pick === "HOME"}
-          onChange={handleBetChange}
+          onClick={handleBetChange}
           data-id={game.bets[0].id}
           data-type="pick"
           required
           disabled={!(game.bettingState === "OPEN")}
+          readOnly
         />
         <div>
           <div>
