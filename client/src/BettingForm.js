@@ -1,15 +1,25 @@
 import { gql, useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BetGame from "./BetGame";
 import { Button } from "./Components";
 import { GET_GAMES_TO_BET } from "./queries";
 
 const BettingForm = ({ client }) => {
   const [bettingSum, setBettingSum] = useState(0);
-
   const { loading, error, data } = useQuery(GET_GAMES_TO_BET);
   const [showinvalidFieldsMessage, setShowInvalidFieldsMessage] =
     useState(false);
+
+  useEffect(() => {
+    if (data?.getRound?.games.length) {
+      let totalPlacedBets = 0;
+      for (let i = 0; i < games.length; i++) {
+        const game = games[i];
+        totalPlacedBets += game.bets[0].stake || 0;
+      }
+      setBettingSum(data.getRound.roundValue - totalPlacedBets);
+    }
+  });
 
   const saveForm = () => {
     console.log(data.getRound);
