@@ -1,51 +1,21 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Game from "./Game";
 import FoldableContainer from "./Components/FoldableContainer";
-
-const GET_CURRENT_WEEK = gql`
-  query currentRound {
-    currentRound {
-      id
-      gameState
-      winner
-      homeTeam {
-        nickname
-        city
-        conference
-        fullName
-        shortName
-        logo
-      }
-      awayTeam {
-        shortName
-        fullName
-        city
-        nickname
-        logo
-      }
-      bets {
-        id
-        pick
-        score
-        player
-      }
-    }
-  }
-`;
+import { GET_CURRENT_WEEK } from "./queries";
 
 function Week() {
   const { loading, error, data } = useQuery(GET_CURRENT_WEEK);
   if (loading) return "Loading...";
   if (error) return `Error: ${error.message}`;
 
-  const ongoingGames = data.currentRound.filter(
+  const ongoingGames = data.getRound.games.filter(
     (game) => game.gameState === "ONGOING"
   );
-  const upcomingGames = data.currentRound.filter(
+  const upcomingGames = data.getRound.games.filter(
     (game) => game.gameState === "UPCOMING"
   );
-  const finishedGames = data.currentRound.filter(
+  const finishedGames = data.getRound.games.filter(
     (game) => game.gameState === "FINISHED"
   );
 

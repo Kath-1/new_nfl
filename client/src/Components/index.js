@@ -1,3 +1,4 @@
 import FoldableContainer from "./FoldableContainer";
+import Button from "./Button";
 
-export { FoldableContainer };
+export { FoldableContainer, Button };

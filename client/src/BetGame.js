@@ -1,6 +1,6 @@
 import React from "react";
 
-const BetGame = ({ game, handleBetChange }) => {
+const BetGame = ({ game, handleBetChange, disabled }) => {
   return (
     <fieldset
       style={{
@@ -36,17 +36,34 @@ const BetGame = ({ game, handleBetChange }) => {
           />
           <div>
             <p>{game.awayTeam.shortName}</p>
-            <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
-              {game.awayOdds}
-            </p>
+            {disabled ? null : (
+              <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
+                {game.awayOdds}
+              </p>
+            )}
           </div>
         </div>
       </label>
-      <div style={{ display: "flex", alignItems: "center", fontSize: "2rem" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: "2rem",
+          color: `${disabled ? "grey" : "black"}`,
+        }}
+      >
         @
       </div>
       <label className="form-control">
-        <span style={{ position: "absolute", right: "-20px" }}>$</span>
+        <span
+          style={{
+            position: "absolute",
+            right: "-20px",
+            color: `${disabled ? "gray" : "black"}`,
+          }}
+        >
+          $
+        </span>
         <input
           type="radio"
           name={game.id}
@@ -62,9 +79,11 @@ const BetGame = ({ game, handleBetChange }) => {
         <div>
           <div>
             <p>{game.homeTeam.shortName}</p>
-            <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
-              {game.homeOdds}
-            </p>
+            {disabled ? null : (
+              <p style={{ fontSize: "0.8rem", textAlign: "center" }}>
+                {game.homeOdds}
+              </p>
+            )}
           </div>
           <img
             style={{ height: "40px", marginLeft: "5px" }}
@@ -77,10 +96,10 @@ const BetGame = ({ game, handleBetChange }) => {
         data-id={game.bets[0].id}
         data-type="stake"
         type="number"
-        min="20"
+        min="0"
         max="9999"
         style={{ width: "100px", fontSize: "1.5rem", paddingLeft: "25px" }}
-        value={game.bets[0]?.stake === null ? 100 : game.bets[0]?.stake}
+        value={game.bets[0]?.stake === null ? "" : game.bets[0]?.stake}
         onChange={handleBetChange}
         name="amount"
         disabled={!(game.bettingState === "OPEN")}

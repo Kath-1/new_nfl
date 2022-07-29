@@ -5,14 +5,23 @@ const typeDefs = gql`
 schema {
     query: Query
 }
+
 type Query {
-    getGame(id: String!): Game
+    getGame(id: ID!): Game
     getTeam(shortName: String!): Team
     getTeams(includeHistorical: Boolean = false): [Team]!
-    currentRound: [Game]!
+    getRound(round: Round): RoundInfo
 }
+
+type RoundInfo {
+    round: Round!
+    currentRound: Boolean!
+    roundValue: Int,
+    games: [Game]!
+}
+
 type Game {
-    id: String!,
+    id: ID!,
     round: Round!,
     season: Int!,
     seasonType: SeasonType!,
@@ -35,24 +44,30 @@ type Game {
     bettingType: BettingType,
     bets: [Bet],
 }
+
 enum Quarter {
     Q1, Q2, HALFTIME, Q3, Q4, OT, FINAL, FINAL_OT
 }
+
 enum Side {
     HOME, AWAY, TIE, NONE
 }
+
 type Bet {
-    id: String!
+    id: ID!,
     player: String!,
     pick: Side!,
     stake: Int,
     score: Int,
     open: Boolean
 }
+
 enum SeasonType {
     REGULAR, POST
 }
+
 type Team {
+    id: ID!,
     shortName: String!,
     fullName: String!,
     city: String!,
@@ -66,25 +81,30 @@ type Team {
     logo: String!,
     wordmark: String!
 }
+
 enum Conference {
     AFC, NFC
 }
+
 enum GameState {
     UPCOMING,
     ONGOING,
     FINISHED
 }
+
 enum BettingState {
     NOT_OPENED,
     OPEN,
     CLOSED,
     PAID
 }
+
 enum BettingType {
     NO_ODDS,
     ODDS,
     WALLET
 }
+
 enum Round {
     REG1,
     REG2,
@@ -109,18 +129,19 @@ enum Round {
     POST_CONF
     POST_SB
 }
+
 `;
 
 const mocks = {
-    Query: () => ({
-        currentRound: [...new Array(16)]
+    RoundInfo: () => ({
+        roundValue: 1600,
+        games: [...new Array(16)]
     }),
-
     Team: () => ({
+        id: () => faker.database.mongodbObjectId(),
         nickname: "Commanders",
         logo: "https://static.www.nfl.com/f_auto,q_85/league/api/clubs/logos/GB",
         shortName: "WAS",
-        
     }),
     Game: () => ({
         id: () => faker.database.mongodbObjectId(),
@@ -133,10 +154,8 @@ const mocks = {
         id: () => faker.database.mongodbObjectId(),
         player: "Thomas",
         score: 200,
-        //stake: () => faker.datatype.number({ min: 50, max: 900 }) 
+        // stake: () => faker.datatype.number({ min: 50, max: 900 }) 
         stake: null,
-        pick: "NONE"
-        
     })
 }
 
@@ -144,7 +163,6 @@ const server = new ApolloServer({
     typeDefs,
     mocks : mocks
 })
-
 
 server.listen().then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);

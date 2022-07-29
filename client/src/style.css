@@ -52,7 +52,11 @@ input[type="radio"] + div {
 }
 
 input[type="radio"]:disabled + div {
-  /* color: gray; */
+  color: gray;
+}
+
+input[type="radio"]:disabled + div > img {
+  filter: opacity(0.5);
 }
 
 /* input:invalid {
