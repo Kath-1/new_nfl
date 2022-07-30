@@ -9,6 +9,7 @@ const BettingForm = ({ client }) => {
   const { loading, error, data } = useQuery(GET_GAMES_TO_BET);
   const [showinvalidFieldsMessage, setShowInvalidFieldsMessage] =
     useState(false);
+  const [potentialWins, setPotentialWins] = useState({});
 
   useEffect(() => {
     if (data?.getRound?.games.length) {
@@ -20,6 +21,29 @@ const BettingForm = ({ client }) => {
       setBettingSum(data.getRound.roundValue - totalPlacedBets);
     }
   });
+
+  useEffect(() => {
+    calcPotentialWins(
+      data?.getRound?.games?.filter((game) => game.bettingState === "OPEN")
+    );
+  }, [data]);
+
+  const calcPotentialWins = (games) => {
+    const potentialWins = {};
+    if (games?.length) {
+      games.forEach((game) => {
+        const bet = game.bets[0];
+        const win =
+          bet.pick === "HOME"
+            ? game.homeOdds * bet.stake
+            : bet.pick === "AWAY"
+            ? game.awayOdds * bet.stake
+            : 0;
+        potentialWins[game.id] = win;
+      });
+      setPotentialWins(potentialWins);
+    }
+  };
 
   const saveForm = () => {
     console.log(data.getRound);
@@ -130,13 +154,20 @@ const BettingForm = ({ client }) => {
             />
             <Button text="Save" />
           </div>
-          <div>{`Left to place: $${bettingSum}`}</div>
+          <div
+            style={{
+              fontSize: "20px",
+              color: bettingSum >= 0 ? "black" : "red",
+              paddingRight: "10px",
+            }}
+          >{`$ ${bettingSum}`}</div>
         </header>
         {openForBets.map((game) => (
           <BetGame
             game={game}
             key={game.id}
             handleBetChange={handleBetChange}
+            potentialWin={potentialWins[game.id]}
           />
         ))}
         <h2>Upcoming games</h2>

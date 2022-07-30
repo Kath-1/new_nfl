@@ -1,6 +1,6 @@
 import React from "react";
 
-const BetGame = ({ game, handleBetChange, disabled }) => {
+const BetGame = ({ game, handleBetChange, disabled, potentialWin }) => {
   return (
     <fieldset
       style={{
@@ -92,13 +92,24 @@ const BetGame = ({ game, handleBetChange, disabled }) => {
           />
         </div>
       </label>
+      {!disabled && (
+        <span
+          style={{
+            position: "absolute",
+            right: "10px",
+            color: `orange`,
+          }}
+        >
+          {potentialWin && Math.round(potentialWin)}
+        </span>
+      )}
       <input
         data-id={game.bets[0].id}
         data-type="stake"
         type="number"
         min="0"
         max="9999"
-        style={{ width: "100px", fontSize: "1.5rem", paddingLeft: "25px" }}
+        style={{ width: "120px", fontSize: "1.5rem", paddingLeft: "25px" }}
         value={game.bets[0]?.stake === null ? "" : game.bets[0]?.stake}
         onChange={handleBetChange}
         name="amount"
